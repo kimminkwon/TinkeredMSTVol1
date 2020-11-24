@@ -22,5 +22,5 @@ The purpose of this program is to optimize the connection between each partition
 ### Class Diagram
 
 <div>
-  <img width="650" height="500" src="https://user-images.githubusercontent.com/51231789/100042376-a675d900-2e4e-11eb-8396-09848924503b.jpg" />
+  <img width="700" height="500" src="https://user-images.githubusercontent.com/51231789/100042376-a675d900-2e4e-11eb-8396-09848924503b.jpg" />
 </div>
