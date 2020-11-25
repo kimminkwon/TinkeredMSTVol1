@@ -22,4 +22,13 @@ public class AdjPartition {
     public Point getDividedPoint2() {
         return dividedPoint2;
     }
+
+    @Override
+    public String toString() {
+        return "AdjPartition{" +
+                "number=" + number +
+                ", dividedPoint1=" + dividedPoint1 +
+                ", dividedPoint2=" + dividedPoint2 +
+                '}';
+    }
 }
