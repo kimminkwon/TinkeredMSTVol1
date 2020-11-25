@@ -2,23 +2,23 @@ package dblab.tinkeredmst.InputProcessers;
 
 
 public class Terminal {
-    private int xCoor;
-    private int yCoor;
+    private double xCoor;
+    private double yCoor;
     private int numOfPartition;
     private Partition partition;
 
-    public Terminal(int xCoor, int yCoor, int numOfPartition, Partition partition) {
+    public Terminal(double xCoor, double yCoor, int numOfPartition, Partition partition) {
         this.xCoor = xCoor;
         this.yCoor = yCoor;
         this.numOfPartition = numOfPartition;
         this.partition = partition;
     }
 
-    public int getxCoor() {
+    public double getxCoor() {
         return xCoor;
     }
 
-    public int getyCoor() {
+    public double getyCoor() {
         return yCoor;
     }
 
@@ -28,5 +28,11 @@ public class Terminal {
 
     public Partition getPartition() {
         return partition;
+    }
+
+    @Override
+    public String toString() {
+        return "Terminal{" +
+                "(" + xCoor + ", " + yCoor + ") numOfPartition=" + numOfPartition + "}";
     }
 }

@@ -1,19 +1,24 @@
 package dblab.tinkeredmst.InputProcessers;
 
 public class Point {
-    private int xCoor;
-    private int yCoor;
+    private double xCoor;
+    private double yCoor;
 
     public Point(int xCoor, int yCoor) {
         this.xCoor = xCoor;
         this.yCoor = yCoor;
     }
 
-    public int getxCoor() {
+    public double getxCoor() {
         return xCoor;
     }
 
-    public int getyCoor() {
+    public double getyCoor() {
         return yCoor;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + xCoor + ", " + yCoor + ")";
     }
 }
