@@ -4,7 +4,7 @@ public class Point {
     private double xCoor;
     private double yCoor;
 
-    public Point(int xCoor, int yCoor) {
+    public Point(double xCoor, double yCoor) {
         this.xCoor = xCoor;
         this.yCoor = yCoor;
     }
