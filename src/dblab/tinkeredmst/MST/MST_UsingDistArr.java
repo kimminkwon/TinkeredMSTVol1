@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MST_UsingDistArr extends MST{
+public class MST_UsingDistArr extends MST {
     private double[][] distance;
     private int numOfComponent;
     private List<Terminal> terminalStatus;
@@ -24,24 +24,15 @@ public class MST_UsingDistArr extends MST{
     private void makeDistance() {
         distance = new double[terminalStatus.size()][terminalStatus.size()];
         numOfComponent = terminalStatus.size();
+        CalculatorOfDistance calculatorOfDistance = new CalculatorOfDistance();
 
         for(int i = 0; i < numOfComponent; i++) {
             for(int j = i; j < numOfComponent; j++) {
-                distance[i][j] = calculateDistance(terminalStatus.get(i), terminalStatus.get(j));
+                distance[i][j] = calculatorOfDistance.calculateDistance(terminalStatus.get(i), terminalStatus.get(j));
                 distance[j][i] = distance[i][j];
             }
         }
-
-        for(int i = 0; i < numOfComponent; i++) {
-            System.out.println(i + "-th TERMINALS DISTANCE===========================================");
-            System.out.println(Arrays.toString(distance[i]));
-        }
     }
-
-    private double calculateDistance(Terminal t1, Terminal t2) {
-        return Math.sqrt(Math.pow(Math.abs(t2.getxCoor() - t1.getxCoor()), 2) + Math.pow(Math.abs(t2.getyCoor() - t1.getyCoor()), 2));
-    }
-
 
     @Override
     public double makeMST() {
