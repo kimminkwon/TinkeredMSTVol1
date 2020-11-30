@@ -48,7 +48,12 @@ public class CalculateForDistanceTwoPartitions extends CalculatorOfDistance {
             distanceForUsingEachPortals.add(getPortalDistance(p));
         }
 
-        return -1.0;
+        double minValue = Double.MAX_VALUE;
+        for(double distancePortal : distanceForUsingEachPortals) {
+            if(minValue > distancePortal) minValue = distancePortal;
+        }
+
+        return minValue;
     }
 
     private Double getPortalDistance(Point portal) {
