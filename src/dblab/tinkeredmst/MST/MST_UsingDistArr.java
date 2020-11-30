@@ -51,7 +51,7 @@ public class MST_UsingDistArr extends MST {
         for(int k = 1; k < numOfComponent; k++) {
             // 1) 거리 값 업데이트
             for(int i = 0; i < numOfComponent; i++)
-                minDist[i] = minDist[i] > distance[selectedIndex][i] ? distance[selectedIndex][i] : minDist[i];
+                minDist[i] = minDist[i] > distance[selectedIndex][i] && distance[selectedIndex][i] != 0.0 ? distance[selectedIndex][i] : minDist[i];
 
             // 2) 최소 거리 찾기
             double min = Double.MAX_VALUE;
