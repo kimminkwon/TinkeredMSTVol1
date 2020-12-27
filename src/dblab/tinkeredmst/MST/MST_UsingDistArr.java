@@ -18,7 +18,8 @@ public class MST_UsingDistArr extends MST {
 
     public MST_UsingDistArr(List<Terminal> terminalStatus) {
         this.terminalStatus = terminalStatus;
-        makeDistance();
+        numOfComponent = terminalStatus.size();
+        // makeDistance();
     }
 
     private void makeDistance() {
@@ -48,10 +49,20 @@ public class MST_UsingDistArr extends MST {
         selected[selectedIndex] = true;
 
         // 3. Prim Algorithm
+        CalculatorOfDistance calculatorOfDistance = new CalculatorOfDistance();
         for(int k = 1; k < numOfComponent; k++) {
             // 1) 거리 값 업데이트
-            for(int i = 0; i < numOfComponent; i++)
-                minDist[i] = minDist[i] > distance[selectedIndex][i] && distance[selectedIndex][i] != 0.0 ? distance[selectedIndex][i] : minDist[i];
+            for(int i = 0; i < numOfComponent; i++) {
+                double distance;
+                if(terminalStatus != null) {
+                    distance = calculatorOfDistance.calculateDistance(terminalStatus.get(selectedIndex), terminalStatus.get(i));
+                } else {
+                    distance = this.distance[selectedIndex][i];
+                }
+                if(minDist[i] > distance && distance != 0.0) {
+                    minDist[i] = distance;
+                }
+            }
 
             // 2) 최소 거리 찾기
             double min = Double.MAX_VALUE;
