@@ -45,17 +45,13 @@ public class InputProceeser {
             terminalStatus.add(terminal);
             partitionStatus.get(terminal.getNumOfPartition()).setTerminalStatus(terminal);
         }
-
-        partitionStatus.stream().forEach(
-                partition -> System.out.println(partition)
-        );
     }
 
     private Terminal makeTerminal(String terminalInfo, int num) {
         String[] tInfoArr = terminalInfo.split(" ");
         double xCoor = Double.parseDouble(tInfoArr[0]);
         double yCoor = Double.parseDouble(tInfoArr[1]);
-        int numOfPartition = Integer.parseInt(tInfoArr[2]);
+        int numOfPartition = (int) Double.parseDouble(tInfoArr[2]);
 
         Terminal terminal = new Terminal(xCoor, yCoor, numOfPartition, partitionStatus.get(numOfPartition));
         return terminal;
@@ -68,8 +64,8 @@ public class InputProceeser {
         int cnt = 2;
         for(int i = 0; i < Integer.parseInt(pInfoArr[1]); i++) {
             int adjNum = Integer.parseInt(pInfoArr[cnt++]);
-            Point adjPoint1 = new Point(Integer.parseInt(pInfoArr[cnt++]), Integer.parseInt(pInfoArr[cnt++]));
-            Point adjPoint2 = new Point(Integer.parseInt(pInfoArr[cnt++]), Integer.parseInt(pInfoArr[cnt++]));
+            Point adjPoint1 = new Point(Double.parseDouble(pInfoArr[cnt++]), Double.parseDouble(pInfoArr[cnt++]));
+            Point adjPoint2 = new Point(Double.parseDouble(pInfoArr[cnt++]), Double.parseDouble(pInfoArr[cnt++]));
 
             AdjPartition adjPartition = new AdjPartition(adjNum, adjPoint1, adjPoint2);
             partition.setAdjPartition(adjPartition);
