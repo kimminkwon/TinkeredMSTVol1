@@ -4,17 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ResultsOfEachPartitions {
-    private Map<Integer, ResultOfEachPartition> partitionResultMap;
+    private Map<Integer, ResultOfPartition> partitionResultMap;
 
     public ResultsOfEachPartitions() {
         this.partitionResultMap = new HashMap<>();
     }
 
-    public void addResultOfEachPartition(ResultOfEachPartition resultOfEachPartition) {
-        partitionResultMap.put(resultOfEachPartition.getPartitionNumber(), resultOfEachPartition);
+    public void addResultOfEachPartition(ResultOfPartition resultOfPartition) {
+        partitionResultMap.put(resultOfPartition.getPartitionNumber(), resultOfPartition);
     }
 
-    public ResultOfEachPartition getPartitionResultMap(int number) {
+    public ResultOfPartition getPartitionResultMap(int number) {
         return partitionResultMap.get(number);
     }
 }
