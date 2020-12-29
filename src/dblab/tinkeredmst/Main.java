@@ -24,7 +24,8 @@ public class Main {
         // 3. 각 Partition 별로 Sub MST를 만든다.
         ResultsOfEachPartitions resultsOfEachPartition = makeResultsOfEachPartitions(inputProceeser.getPartitionStatus());
 
-            long start = System.currentTimeMillis();
+        // 본 알고리즘을 위한 시간 측정 시작
+        CalculateTimeForTinkeredMST calculateTimeForTinkeredMST = makeStartTimeForTinkeredMST();
 
         // 4. 각 Partition 별 거리를 저장한다.
         DistanceOfEachPartitions distanceOfEachPartitions = makeDistanceOfEachPartitions(inputProceeser);
@@ -33,15 +34,28 @@ public class Main {
         double totalLengthOfEachPartitions = makeTotalLengthOfEachPartitions(resultsOfEachPartition);
         double connectingLengthOfTinkeredMST = makeResultOfTinkeredMST(distanceOfEachPartitions);
 
-            long end = System.currentTimeMillis();
-            double timeOfTinkeredMST = (end - start) / 1000.0;
+        // 본 알고리즘 시간 측정 끝
+        calculateTimeForTinkeredMST = makeEndTimeForTinkeredMST(calculateTimeForTinkeredMST);
 
         printForCheck3(resultOfBenchmarkModel, totalLengthOfEachPartitions, connectingLengthOfTinkeredMST);
-        ResultOfTinkeredMST resultOfTinkeredMST = makeResultOfTinkeredMST(timeOfTinkeredMST, totalLengthOfEachPartitions + connectingLengthOfTinkeredMST);
+        ResultOfTinkeredMST resultOfTinkeredMST = makeResultOfTinkeredMST(calculateTimeForTinkeredMST.getTime(), totalLengthOfEachPartitions + connectingLengthOfTinkeredMST);
 
         // 6. Benchmark model과 TinkeredMST의 Result를 통합관리
         CompareTwoResults compareTwoResults = new CompareTwoResults(resultOfBenchmarkModel, resultOfTinkeredMST);
         printForCheck4(compareTwoResults);
+    }
+
+    private static CalculateTimeForTinkeredMST makeEndTimeForTinkeredMST(CalculateTimeForTinkeredMST calculateTimeForTinkeredMST) {
+        calculateTimeForTinkeredMST.setEndTime(System.currentTimeMillis());
+
+        return calculateTimeForTinkeredMST;
+    }
+
+    private static CalculateTimeForTinkeredMST makeStartTimeForTinkeredMST() {
+        CalculateTimeForTinkeredMST calculateTimeForTinkeredMST = new CalculateTimeForTinkeredMST();
+        calculateTimeForTinkeredMST.setStartTime(System.currentTimeMillis());
+
+        return calculateTimeForTinkeredMST;
     }
 
     private static void printForCheck4(CompareTwoResults compareTwoResults) {
@@ -103,8 +117,8 @@ public class Main {
         ResultsOfEachPartitions resultsOfEachPartition = new ResultsOfEachPartitions();
         for(Partition p : partitionStatus) {
             mst = new MST_UsingDistArr(p.getTerminalStatus());
-            ResultOfEachPartition resultOfEachPartition = new ResultOfEachPartition(p, mst.getMSTResult());
-            resultsOfEachPartition.addResultOfEachPartition(resultOfEachPartition);
+            ResultOfPartition resultOfPartition = new ResultOfPartition(p, mst.getMSTResult());
+            resultsOfEachPartition.addResultOfEachPartition(resultOfPartition);
         }
 
         return resultsOfEachPartition;
