@@ -2,13 +2,13 @@ package dblab.tinkeredmst.TinkeredMST;
 
 import dblab.tinkeredmst.InputProcessers.Partition;
 
-public class ResultOfEachPartition {
+public class ResultOfPartition {
     private int partitionNumber;
     private Partition partitionInfo;
     private double usingLength;
     private double time;
 
-    public ResultOfEachPartition(Partition partitionInfo, double[] results) {
+    public ResultOfPartition(Partition partitionInfo, double[] results) {
         this.partitionNumber = partitionInfo.getNumber();
         this.partitionInfo = partitionInfo;
         this.time = results[0];
