@@ -7,6 +7,9 @@ import dblab.tinkeredmst.MST.MST_UsingDistArr;
 import dblab.tinkeredmst.Results.CompareTwoResults;
 import dblab.tinkeredmst.TinkeredMST.*;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -37,12 +40,64 @@ public class Main {
         // 본 알고리즘 시간 측정 끝
         calculateTimeForTinkeredMST = makeEndTimeForTinkeredMST(calculateTimeForTinkeredMST);
 
-        printForCheck3(resultOfBenchmarkModel, totalLengthOfEachPartitions, connectingLengthOfTinkeredMST);
         ResultOfTinkeredMST resultOfTinkeredMST = makeResultOfTinkeredMST(calculateTimeForTinkeredMST.getTime(), totalLengthOfEachPartitions + connectingLengthOfTinkeredMST);
 
         // 6. Benchmark model과 TinkeredMST의 Result를 통합관리
         CompareTwoResults compareTwoResults = new CompareTwoResults(resultOfBenchmarkModel, resultOfTinkeredMST);
-        printForCheck4(compareTwoResults);
+
+        // 7. 결과 출력
+        printForCheckFinal(compareTwoResults, resultOfBenchmarkModel, totalLengthOfEachPartitions, connectingLengthOfTinkeredMST, resultOfTinkeredMST);
+        makeFileOutput(compareTwoResults, resultOfBenchmarkModel, totalLengthOfEachPartitions, connectingLengthOfTinkeredMST, resultOfTinkeredMST);
+    }
+
+    private static void makeFileOutput(CompareTwoResults compareTwoResults, ResultOfBenchmarkModel resultOfBenchmarkModel, double totalLengthOfEachPartitions, double connectingLengthOfTinkeredMST, ResultOfTinkeredMST resultOfTinkeredMST) {
+        BufferedOutputStream bs = null;
+        try {
+            bs = new BufferedOutputStream(new FileOutputStream(Consts.FILENAME + "_result.txt"));
+            String s = "============================== RESULT ==============================";
+            bs.write(s.concat("\n").getBytes());
+            s = "* FILE INFO: " + Consts.FILENAME;
+            bs.write(s.concat("\n").getBytes());
+            s = "* NUM OF TERMINALS: " + Consts.NUMOFTERMINALS;
+            bs.write(s.concat("\n").getBytes());
+            s = "* NUM OF PARTITIONS: " + Consts.NUMOFPARTITIONS;
+            bs.write(s.concat("\n").getBytes());
+            s = "* NUM OF PORTALS: " + Consts.NUMOFPORTALS;
+            bs.write(s.concat("\n").getBytes());
+            s = "* RESULT OF TIME: " + compareTwoResults.getResultOfTime();
+            bs.write(s.concat("\n").getBytes());
+            s = "* RESULT OF LENGTH: " + compareTwoResults.getResultOfLength();
+            bs.write(s.concat("\n").getBytes());
+            s = "\n============================ DETAIL RESULT ============================";
+            bs.write(s.concat("\n").getBytes());
+            s = "* LENGTH OF TWO ALGORITHMS...";
+            bs.write(s.concat("\n").getBytes());
+            s = "   - length of Benchmark model: " + resultOfBenchmarkModel.getUsingLength();
+            bs.write(s.concat("\n").getBytes());
+            s = "   - length of Tinkered MST: " + resultOfTinkeredMST.getUsingLength();
+            bs.write(s.concat("\n").getBytes());
+            s = "* TIME OF TWO ALGORITHMS...";
+            bs.write(s.concat("\n").getBytes());
+            s = "   - length of Benchmark model: " + resultOfBenchmarkModel.getTime();
+            bs.write(s.concat("\n").getBytes());
+            s = "   - length of Tinkered MST: " + resultOfTinkeredMST.getTime();
+            bs.write(s.concat("\n").getBytes());
+            s = "* DETAIL OF TINKERED MST...";
+            bs.write(s.concat("\n").getBytes());
+            s = "    - total length for partitions(not connecting each partitions): " + totalLengthOfEachPartitions;
+            bs.write(s.concat("\n").getBytes());
+            s = "    - connecting length for partitions: " + connectingLengthOfTinkeredMST;
+            bs.write(s.concat("\n").getBytes());
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        finally {
+            try {
+                bs.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static CalculateTimeForTinkeredMST makeEndTimeForTinkeredMST(CalculateTimeForTinkeredMST calculateTimeForTinkeredMST) {
@@ -61,6 +116,10 @@ public class Main {
     private static void printForCheck4(CompareTwoResults compareTwoResults) {
         System.out.println();
         System.out.println("============================== RESULT ==============================");
+        System.out.println("* FILE INFO: " + Consts.FILENAME);
+        System.out.println("* NUM OF TERMINALS: " + Consts.NUMOFTERMINALS);
+        System.out.println("* NUM OF PARTITIONS: " + Consts.NUMOFPARTITIONS);
+        System.out.println("* NUM OF PORTALS: " + Consts.NUMOFPORTALS);
         System.out.println("* RESULT OF TIME: " + compareTwoResults.getResultOfTime());
         System.out.println("* RESULT OF LENGTH: " + compareTwoResults.getResultOfLength());
     }
@@ -69,12 +128,26 @@ public class Main {
         return new ResultOfTinkeredMST(timeOfTinkeredMST, finalResultLengthForTinkeredMST);
     }
 
-    private static void printForCheck3(ResultOfBenchmarkModel resultOfBenchmarkModel, double totalLengthOfEachPartitions, double connectingLengthOfTinkeredMST) {
-        System.out.println("* length of benchmarkModel: " + resultOfBenchmarkModel.getUsingLength());
-        System.out.println("* Final result length for Tinkered MST: " + (connectingLengthOfTinkeredMST + totalLengthOfEachPartitions));
-        System.out.println("    - Total length for partitions(not connecting each partitions): " + totalLengthOfEachPartitions);
-        System.out.println("    - Connecting length for partitions: " + connectingLengthOfTinkeredMST);
-        System.out.println("* Ratio for two results: " + ((connectingLengthOfTinkeredMST + totalLengthOfEachPartitions) / resultOfBenchmarkModel.getUsingLength() * 100.0));
+    private static void printForCheckFinal(CompareTwoResults compareTwoResults, ResultOfBenchmarkModel resultOfBenchmarkModel, double totalLengthOfEachPartitions, double connectingLengthOfTinkeredMST, ResultOfTinkeredMST resultOfTinkeredMST) {
+        System.out.println();
+        System.out.println("============================== RESULT ==============================");
+        System.out.println("* FILE INFO: " + Consts.FILENAME);
+        System.out.println("* NUM OF TERMINALS: " + Consts.NUMOFTERMINALS);
+        System.out.println("* NUM OF PARTITIONS: " + Consts.NUMOFPARTITIONS);
+        System.out.println("* NUM OF PORTALS: " + Consts.NUMOFPORTALS);
+        System.out.println("* RESULT OF TIME: " + compareTwoResults.getResultOfTime());
+        System.out.println("* RESULT OF LENGTH: " + compareTwoResults.getResultOfLength());
+        System.out.println();
+        System.out.println("============================ DETAIL RESULT ============================");
+        System.out.println("* LENGTH OF TWO ALGORITHMS...");
+        System.out.println("   - length of Benchmark model: " + resultOfBenchmarkModel.getUsingLength());
+        System.out.println("   - length of Tinkered MST: " + resultOfTinkeredMST.getUsingLength());
+        System.out.println("* TIME OF TWO ALGORITHMS...");
+        System.out.println("   - length of Benchmark model: " + resultOfBenchmarkModel.getTime());
+        System.out.println("   - length of Tinkered MST: " + resultOfTinkeredMST.getTime());
+        System.out.println("* DETAIL OF TINKERED MST...");
+        System.out.println("    - total length for partitions(not connecting each partitions): " + totalLengthOfEachPartitions);
+        System.out.println("    - connecting length for partitions: " + connectingLengthOfTinkeredMST);
     }
 
     private static double makeTotalLengthOfEachPartitions(ResultsOfEachPartitions resultsOfEachPartition) {
