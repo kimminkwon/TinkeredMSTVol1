@@ -16,6 +16,7 @@ public class InputProceeser {
     public InputProceeser(String path) {
         terminalStatus = new ArrayList<>();
         partitionStatus = new ArrayList<>();
+        Consts.setFILENAME(path.split("\\\\")[path.split("\\\\").length - 1].substring(0, path.split("\\\\")[path.split("\\\\").length - 1].length() - 4));
 
         FileInputStream fileInputStream = null;
         try {
@@ -31,7 +32,12 @@ public class InputProceeser {
     }
 
     private void readInstance() {
-        String[] splitInstance = instance.split(System.getProperty("line.separator"));
+        String[] fullInstance = instance.split(System.getProperty("line.separator"));
+        Consts.setNUMOFPARTITIONS(Integer.parseInt(fullInstance[0]));
+        Consts.setNUMOFTERMINALS(Integer.parseInt(fullInstance[1]));
+        Consts.setNUMOFPORTALS(Integer.parseInt(fullInstance[2]));
+
+        String[] splitInstance = Arrays.copyOfRange(fullInstance, 3, fullInstance.length);
 
         // 1. Partition의 정보 저장
         for(int i = 0; i < Consts.NUMOFPARTITIONS; i++) {
